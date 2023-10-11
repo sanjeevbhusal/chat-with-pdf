@@ -1,7 +1,8 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TRPCError, initTRPC } from "@trpc/server";
-import { NextResponse } from "next/server";
+
 import { prisma } from "@/lib/prisma";
+import { privateProcedure } from "./trpc";
 
 const trpc = initTRPC.create();
 
@@ -33,6 +34,17 @@ export const appRouter = trpc.router({
     }
 
     return { success: true };
+  }),
+  getUserFiles: privateProcedure.query(async ({ ctx }) => {
+    const user = ctx.user;
+
+    const files = await prisma.file.findMany({
+      where: {
+        userId: user.id!,
+      },
+    });
+
+    return { files };
   }),
 });
 

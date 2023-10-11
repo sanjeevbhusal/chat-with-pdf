@@ -2,9 +2,8 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TRPCError, initTRPC } from "@trpc/server";
 
 const t = initTRPC.create();
-const middleware = t.middleware;
 
-const isAuth = middleware(async (opts) => {
+const authenticationMiddleware = t.middleware(async (opts) => {
   const { getUser } = getKindeServerSession();
   const user = getUser();
 
@@ -14,7 +13,6 @@ const isAuth = middleware(async (opts) => {
 
   return opts.next({
     ctx: {
-      userId: user.id,
       user,
     },
   });
@@ -22,4 +20,4 @@ const isAuth = middleware(async (opts) => {
 
 export const router = t.router;
 export const publicProcedure = t.procedure;
-export const privateProcedure = t.procedure.use(isAuth);
+export const privateProcedure = t.procedure.use(authenticationMiddleware);

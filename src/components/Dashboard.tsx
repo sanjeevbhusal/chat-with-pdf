@@ -9,6 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { Button } from "./ui/button";
+import UploadButton from "./UploadButton";
+import PdfList from "./PdfList";
 
 interface DashboardProps {
   user: User;
@@ -16,29 +20,35 @@ interface DashboardProps {
 
 function Dashboard({ user }: DashboardProps) {
   return (
-    <MaxWidthWrapper className="py-2 border-red-500 border">
-      {/* <Avatar className="ml-auto">
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar> */}
-      <div>
-        <div className="ml-auto">hello</div>
-        {/* <DropdownMenuTrigger className="ml-auto">
-          <Avatar className="ml-auto">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger> */}
-        {/* <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
-        </DropdownMenuContent> */}
-      </div>
-    </MaxWidthWrapper>
+    <>
+      <MaxWidthWrapper className="py-4 flex justify-between items-center border-b">
+        <Link
+          href="/"
+          className="text-sm md:text-base lg:text-lg font-semibold"
+        >
+          PDF-Chat
+        </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="outline-none">
+            <Avatar className="ml-auto">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Upgrade</DropdownMenuItem>
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </MaxWidthWrapper>
+      <MaxWidthWrapper className="mt-4 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h1>Your PDFs</h1>
+          <UploadButton />
+        </div>
+        <PdfList pdfList={[]} />
+      </MaxWidthWrapper>
+    </>
   );
 }
 
