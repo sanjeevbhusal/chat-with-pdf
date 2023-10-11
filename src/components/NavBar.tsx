@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Button } from './ui/button';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { AiOutlineClose } from 'react-icons/ai';
-import { useState } from 'react';
-import { RegisterLink, LoginLink } from '@kinde-oss/kinde-auth-nextjs/server';
+import Link from "next/link";
+import { Button } from "./ui/button";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { AiOutlineClose } from "react-icons/ai";
+import React, { useState } from "react";
+// import { RegisterLink, LoginLink } from '@kinde-oss/kinde-auth-nextjs/server';
 
-const NavBar = () => {
+const NavBar = ({ kindeControls }: { kindeControls: React.ReactNode }) => {
   const [openMobileNav, setOpenMobileNav] = useState(false);
 
   const openMobileNavbar = () => {
@@ -27,17 +27,18 @@ const NavBar = () => {
         <li className="text-gray-600">
           <Link href="/pricing">Pricing</Link>
         </li>
-        <li className="text-gray-600">
+        {/* <li className="text-gray-600">
           <Link href="/signin">Signin</Link>
         </li>
         <li>
           <Link href="/signup">
             <Button size="sm">Get Started</Button>
           </Link>
-        </li>
-        <LoginLink>Sign in</LoginLink>
+        </li> */}
+        {kindeControls}
+        {/* <LoginLink>Sign in</LoginLink>
 
-        <RegisterLink>Sign up</RegisterLink>
+        <RegisterLink>Sign up</RegisterLink> */}
       </ul>
 
       {/* Small Screen NavBar */}

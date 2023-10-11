@@ -1,14 +1,28 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import NavBar from "@/components/NavBar";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { RegisterLink, LoginLink } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default function Home() {
   return (
     <>
       <div className="border-b">
         <MaxWidthWrapper>
-          <NavBar />
+          <NavBar
+            kindeControls={
+              <>
+                <LoginLink className={buttonVariants({ variant: "link" })}>
+                  Sign in
+                </LoginLink>
+                <RegisterLink
+                  className={buttonVariants({ variant: "default" })}
+                >
+                  Sign up
+                </RegisterLink>
+              </>
+            }
+          />
         </MaxWidthWrapper>
       </div>
       <MaxWidthWrapper>
@@ -36,7 +50,9 @@ export default function Home() {
           <div className="flex items-center justify-between mt-16">
             <div className="border-b-2 pb-2">
               <p className="text-red-500 text-xs md:text-sm">Step 1</p>
-              <p className="font-semibold mt-2 text-sm md:text-base">Create a account</p>
+              <p className="font-semibold mt-2 text-sm md:text-base">
+                Create a account
+              </p>
             </div>
 
             <div className="border-b-2 pb-2">
@@ -45,7 +61,9 @@ export default function Home() {
             </div>
             <div className="border-b-2 pb-2">
               <p className="text-red-500 text-xs md:text-sm">Step 3</p>
-              <p className="font-semibold mt-2 text-sm">Start asking questions</p>
+              <p className="font-semibold mt-2 text-sm">
+                Start asking questions
+              </p>
             </div>
           </div>
         </div>
