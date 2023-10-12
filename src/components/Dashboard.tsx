@@ -46,7 +46,7 @@ function Dashboard({ user }: DashboardProps) {
           <h1>Your PDFs</h1>
           <UploadButton />
         </div>
-        <PdfList pdfList={[]} />
+        <PdfList />
       </MaxWidthWrapper>
     </>
   );

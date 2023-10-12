@@ -9,7 +9,7 @@ function Providers({ children }: PropsWithChildren) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      links: [httpBatchLink({ url: "http://localhost:3000/api/trpc" })],
+      links: [httpBatchLink({ url: "https://congenial-broccoli-6pw5q7w496pcj9x-3000.app.github.dev/api/trpc" })],
     })
   );
 
