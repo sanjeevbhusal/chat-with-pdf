@@ -11,8 +11,6 @@ const authenticationMiddleware = t.middleware(async (opts) => {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
-  console.log(user)
-
   return opts.next({
     ctx: {
       user,

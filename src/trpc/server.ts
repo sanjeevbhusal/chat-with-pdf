@@ -3,7 +3,7 @@ import { TRPCError, initTRPC } from "@trpc/server";
 
 import { prisma } from "@/lib/prisma";
 import { privateProcedure } from "./trpc";
-import {z} from "zod"
+import { z } from "zod";
 
 const trpc = initTRPC.create();
 
@@ -34,8 +34,6 @@ export const appRouter = trpc.router({
       });
     }
 
-    console.log(dbUser)
-
     return { success: true };
   }),
   getUserFiles: privateProcedure.query(async ({ ctx }) => {
@@ -47,35 +45,66 @@ export const appRouter = trpc.router({
       },
     });
 
-    console.log(files)
-
     return { files };
   }),
-  deleteFile: privateProcedure.input(z.object({fileId: z.number()})).mutation(async ({ ctx, input }) => {
+  deleteFile: privateProcedure
+    .input(z.object({ fileId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const user = ctx.user;
+
+      const file = await prisma.file.findUnique({
+        where: {
+          id: input.fileId,
+          userId: user.id as string,
+        },
+      });
+
+      if (!file) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      // if (file.userId !== user.id) {
+      //   throw new TRPCError({ code: "UNAUTHORIZED" });
+      // }
+
+      await prisma.file.delete({
+        where: {
+          id: input.fileId,
+        },
+      });
+
+      return { success: true };
+    }),
+  uploadFile: privateProcedure
+    .input(z.object({ fileName: z.string(), fileUrl: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const user = ctx.user;
+
+      const file = await prisma.file.create({
+        data: {
+          name: input.fileName,
+          url: input.fileUrl,
+          userId: user.id as string,
+        },
+      });
+
+      return { id: file.id };
+    }),
+  getFile: privateProcedure.input(z.object({fileId: z.string()})).mutation(async ({ctx, input}) => {
     const user = ctx.user;
 
     const file = await prisma.file.findUnique({
       where: {
         id: input.fileId,
         userId: user.id as string
-      },
-    });
+      }
+    })
 
     if (!file) {
-      throw new TRPCError({ code: "NOT_FOUND" });
+      throw new TRPCError({code: "NOT_FOUND"})
     }
 
-    // if (file.userId !== user.id) {
-    //   throw new TRPCError({ code: "UNAUTHORIZED" });
-    // }
-
-    await prisma.file.delete({
-      where: {
-        id: input.fileId,
-      },
-    });
-
-    return { success: true };
+    return file;
   })
 });
 

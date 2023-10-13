@@ -41,7 +41,7 @@ function PdfListItem({ pdf, onDelete }: PdfListItemProps) {
       </p>
       
       <AlertDialog>
-        <AlertDialogTrigger>
+        <AlertDialogTrigger asChild>
           <Button variant="outline">
             Delete
           </Button>

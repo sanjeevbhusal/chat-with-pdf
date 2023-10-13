@@ -20,11 +20,8 @@ model User {
 }
 
 model File {
-  id        Int   @id @default(autoincrement())
-  name      String
-  url       String
+  id        String   @id @unique
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   userId    String
   User      User     @relation(fields: [userId], references: [id])
 }
