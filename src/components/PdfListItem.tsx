@@ -28,14 +28,14 @@ interface PdfListItemProps {
 }
 
 function PdfListItem({ pdf, onDelete }: PdfListItemProps) {
-  // console.log(pdf)
+  console.log(pdf)
   return (
     <Link href={`/dashboard/${pdf.id}`}>
     <div className="flex items-center justify-between border rounded-md p-4 cursor-pointer">
       <p className="font-semibold text-sm">{pdf.name}</p>
       <p className="text-sm">
         <span className="text-xs text-gray-500">Last Opened:</span>{" "}
-        {getRelativeDate(new Date(pdf.createdAt))}
+        {getRelativeDate(new Date(pdf.lastOpened))}
       </p>
       <p className="ml-2 text-sm">
         <span className="text-xs text-gray-500 ">Total Pages:</span> 5
