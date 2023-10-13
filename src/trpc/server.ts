@@ -45,6 +45,8 @@ export const appRouter = trpc.router({
       },
     });
 
+    console.log("==>", files, files[0].lastOpened)
+
     return { files };
   }),
   deleteFile: privateProcedure
@@ -75,21 +77,6 @@ export const appRouter = trpc.router({
 
       return { success: true };
     }),
-  uploadFile: privateProcedure
-    .input(z.object({ fileName: z.string(), fileUrl: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const user = ctx.user;
-
-      const file = await prisma.file.create({
-        data: {
-          name: input.fileName,
-          url: input.fileUrl,
-          userId: user.id as string,
-        },
-      });
-
-      return { id: file.id };
-    }),
   getFile: privateProcedure.input(z.object({fileId: z.string()})).mutation(async ({ctx, input}) => {
     const user = ctx.user;
 
@@ -97,14 +84,23 @@ export const appRouter = trpc.router({
       where: {
         id: input.fileId,
         userId: user.id as string
-      }
+      },
     })
 
     if (!file) {
       throw new TRPCError({code: "NOT_FOUND"})
     }
 
-    return file;
+    const updatedFile = await prisma.file.update({
+      where: {
+        id: file.id
+      },
+      data: {
+        lastOpened: new Date()
+      }
+    })
+
+    return updatedFile;
   })
 });
 

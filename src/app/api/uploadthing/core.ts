@@ -20,10 +20,10 @@ export const ourFileRouter = {
       const f = await prisma.file.create({
         data: {
           id: file.key,
+          name: file.name,
           userId: metadata.id as string
         }
       })
-      console.log("database file upload ==>", f)
     }),
 } satisfies FileRouter;
  

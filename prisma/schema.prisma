@@ -20,8 +20,10 @@ model User {
 }
 
 model File {
-  id        String   @id @unique
-  createdAt DateTime @default(now())
-  userId    String
-  User      User     @relation(fields: [userId], references: [id])
+  id         String   @id @unique
+  createdAt  DateTime @default(now())
+  name       String?
+  lastOpened DateTime? @default(now())
+  userId     String
+  User       User     @relation(fields: [userId], references: [id])
 }

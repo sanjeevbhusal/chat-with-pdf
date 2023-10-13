@@ -28,6 +28,7 @@ interface PdfListItemProps {
 }
 
 function PdfListItem({ pdf, onDelete }: PdfListItemProps) {
+  // console.log(pdf)
   return (
     <Link href={`/dashboard/${pdf.id}`}>
     <div className="flex items-center justify-between border rounded-md p-4 cursor-pointer">
