@@ -23,6 +23,7 @@ model File {
   id         String   @id @unique
   createdAt  DateTime @default(now())
   name       String
+  url        String?
   lastOpened DateTime @default(now())
   userId     String
   User       User     @relation(fields: [userId], references: [id])
